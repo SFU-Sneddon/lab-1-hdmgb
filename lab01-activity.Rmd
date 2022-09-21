@@ -20,8 +20,8 @@ knitr::opts_chunk$set(echo = TRUE)
 The following code will ensure you have the necessary proxy settings in your ssh config. It also creates a symbolic link (like a shortcut) to the directory that contains the course files. If this is nonsense to you, don't worry about it and just read on. *If you are running this file for the second+ time, then you need to comment out these lines by adding # at the start of both of them.*
 
 ```{bash}
-mkdir ~/MBB243/
-ln -s /local-scratch/course_files/MBB243/ ~/files
+#mkdir ~/MBB243/
+#ln -s /local-scratch/course_files/MBB243/ ~/files
 ```
 
 The first run of the code chunk above (or the first time you knit this document) should automatically generate a link to the folder that contains all of the files required for our course this semester. You don't have to worry about what this is doing, but we do need this section in here for the first run.
@@ -46,11 +46,11 @@ Each RStudio user is given a home directory on the course server under `/localho
 Add R code and Bash code to the two empty code blocks below, respectively, to print out your current working directory. Add a comment to one of the code blocks that is just the full path to your home directory similar to the examples above.
 
 ```{r}
-
+getwd()
 ```
 
 ```{bash, engine.opts='-l'}
-
+pwd
 ```
 ## Other extremely useful bash commands
 
@@ -84,7 +84,7 @@ head -n 25 /local-scratch/course_files/MBB243/Sneddon_genotypes.txt
 # the last bit is the full path to the file we want to use as input for the head command
 # You can save the output you see by "redirecting" STDOUT to a file. 
 
-head -n 25 /local-scratch/course_files/MBB243/Sneddon_genotypes.txt > ~/MBB243/genotype_head.txt
+head -n 25 /local-scratch/course_files/MBB243/Sneddon_genotypes.txt >> ~/MBB243/genotype_head.txt
 
 ```
 
@@ -152,7 +152,14 @@ Be careful here with the distinction between `>` and `>>`. The code should only 
 
 `cat ~/.bash_profile`
 
-**DELETE THIS TEXT AND PUT YOUR NEW CODE CHUNK HERE**
+```{bash, engine.opts='-l'}
+source ~/.bashrc
+DATA=/local-scratch/course_files/MBB243/
+echo "Hello terminal!" > ~/.bash_profile
+echo $DATA >> ~/.bash_profile
+# The redirect operators > and >> are related but have different effects on existing files. It's important that you know the difference. 
+# If you aren't clear, go back to the earlier portion of this document that introduces it and/or ask the TA or instructor. 
+```
 
 ## Setting a variable in R
 
@@ -231,17 +238,16 @@ To run Python code we always need to ensure we've loaded the `reticulate` R pack
 
 **Task** Set eval=TRUE in the two chunks below and run them (in order!).
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 library(reticulate)
 use_python("~/miniconda3/bin/python")
 use_condaenv("base")
-
 ```
 
 The next code block simply prints the path to the python executable that is used and then loads and tests some functionality provided by the BioPython library. 
 
-```{python, eval=FALSE}
-
+```{python, eval=TRUE}
+import sys
 sys.executable
 from Bio.Seq import Seq
 my_seq = Seq("AGTACACTGGT")
@@ -273,7 +279,7 @@ At the end of every lab, replace TODO with DONE to the left of each task to indi
 |status|task|
 |-|-|
 |DONE|This file has been knit|
-|TODO| My .bashrc file exists|
-|TODO| Miniconda is installed|
-|TODO| I was able to install both Bioconda and samtools using conda|
+|DONE| My .bashrc file exists|
+|DONE| Miniconda is installed|
+|DONE| I was able to install both Bioconda and samtools using conda|
 |TODO| The last few code chunks that run Python code run without errors when I knit this document|
